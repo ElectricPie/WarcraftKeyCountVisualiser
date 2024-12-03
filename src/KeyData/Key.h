@@ -75,6 +75,7 @@ CompletionState StringToCompletionState(const std::string& completionString) {
 
 struct Key
 {
+    std::string RecordingPlayerName;
     Player Players[5];
     std::string DungeonName = "Invalid";
     int32_t Level = 0;
@@ -87,6 +88,7 @@ struct Key
 
     friend std::ostream& operator<<(std::ostream& os, const Key& key) {
         os << key.DungeonName << "\n{\n" <<
+        "   Recorder: " << key.RecordingPlayerName << "\n" <<
         "   Level: " << key.Level << "\n" <<
         "   Completed: " << CompletionStateToString(key.Completed) << "\n" <<
         "   Time: " << key.CompletionTime << "/" << key.TimeLimit << "\n" <<

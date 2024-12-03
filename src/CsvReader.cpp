@@ -11,6 +11,7 @@ void CsvReader::ReadCsv(const std::string &filename)
 {
     std::cout << "Reading " << filename << '\n';
 
+    // TODO: Remove data as it will be stored in the structs
     std::vector<std::pair<std::string, std::vector<std::string>>> data;
     std::ifstream file(filename);
 
@@ -22,7 +23,7 @@ void CsvReader::ReadCsv(const std::string &filename)
 
     std::string line;
 
-    // Headers
+    // Read the Headers
     if (std::getline(file, line))
     {
         std::stringstream ss(line);
@@ -34,7 +35,7 @@ void CsvReader::ReadCsv(const std::string &filename)
         }
     }
 
-    // Data
+    // Read the Data
     while (std::getline(file, line))
     {
         std::stringstream ss(line);
@@ -70,6 +71,7 @@ void CsvReader::ReadCsv(const std::string &filename)
         }
 
         Key newKey;
+        newKey.RecordingPlayerName = row[0];
         newKey.DungeonName = row[1];
         newKey.Level = GetIntFromString(row[2]);
         newKey.Completed = StringToCompletionState(row[3]);
@@ -85,7 +87,7 @@ void CsvReader::ReadCsv(const std::string &filename)
 
     file.close();
 
-    // TODO: ReadData
+    // TODO: Return Data
 }
 
 int32_t CsvReader::GetIntFromString(const std::string &stringInput)
