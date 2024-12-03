@@ -5,6 +5,7 @@
 #include <fstream>
 #include <sstream>
 #include "CsvReader.h"
+#include "KeyData/Key.h"
 
 void CsvReader::ReadCsv(const std::string &filename)
 {
@@ -40,6 +41,7 @@ void CsvReader::ReadCsv(const std::string &filename)
         std::string field;
         int colIndex = 0;
 
+        std::vector<std::string> row;
         // Handle entries that use commas
         while (std::getline(ss, field, CSV_DELIMITER))
         {
@@ -63,17 +65,25 @@ void CsvReader::ReadCsv(const std::string &filename)
             }
 
             data.at(colIndex).second.push_back(field);
+            row.push_back(field);
             colIndex++;
         }
-    }
 
-    for (auto &column: data)
-    {
-        std::cout << '\n' << '\n' << column.first << '\n';
-        for (auto &columnData: column.second)
-        {
-            std::cout << columnData << " | ";
+        Key newKey;
+        newKey.DungeonName = row[1];
+        try {
+            int num = std::stoi(row[2]);
+            newKey.Level = num;
         }
+        catch (const std::invalid_argument& e) {
+            std::cerr << "Key Level: not a number" << std::endl;
+        }
+        catch (const std::invalid_argument& e) {
+            std::cerr << "Key Level: Number Too Larger" << std::endl;
+        }
+        newKey.Season = StringToSeason(row[9]);
+
+        std::cout << newKey << "\n\n";
     }
 
     std::cout << '\n' << "Finished Reading CSV" << '\n';
@@ -82,3 +92,4 @@ void CsvReader::ReadCsv(const std::string &filename)
 
     // TODO: ReadData
 }
+
