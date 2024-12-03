@@ -71,16 +71,10 @@ void CsvReader::ReadCsv(const std::string &filename)
 
         Key newKey;
         newKey.DungeonName = row[1];
-        try {
-            int num = std::stoi(row[2]);
-            newKey.Level = num;
-        }
-        catch (const std::invalid_argument& e) {
-            std::cerr << "Key Level: not a number" << std::endl;
-        }
-        catch (const std::invalid_argument& e) {
-            std::cerr << "Key Level: Number Too Larger" << std::endl;
-        }
+        newKey.Level = GetIntFromString(row[2]);
+        newKey.Completed = StringToCompletionState(row[3]);
+        newKey.TimeLimit = GetIntFromString(row[4]);
+        newKey.CompletionTime = GetIntFromString(row[5]);
         newKey.Season = StringToSeason(row[9]);
 
         std::cout << newKey << "\n\n";
@@ -93,3 +87,18 @@ void CsvReader::ReadCsv(const std::string &filename)
     // TODO: ReadData
 }
 
+int32_t CsvReader::GetIntFromString(const std::string &stringInput)
+{
+    try {
+        int num = std::stoi(stringInput);
+        return num;
+    }
+    catch (const std::invalid_argument& e) {
+        std::cerr << "'" << stringInput << ": not a number" << std::endl;
+    }
+    catch (const std::out_of_range& e) {
+        std::cerr << "'" << stringInput << ": Number Too Larger" << std::endl;
+    }
+
+    return -1;
+}
