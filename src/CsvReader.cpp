@@ -75,6 +75,7 @@ void CsvReader::ReadCsv(const std::string &filename)
         newKey.Completed = StringToCompletionState(row[3]);
         newKey.TimeLimit = GetIntFromString(row[4]);
         newKey.CompletionTime = GetIntFromString(row[5]);
+        newKey.Deaths = GetIntFromString(row[7]);
         newKey.Season = StringToSeason(row[9]);
 
         std::cout << newKey << "\n\n";
