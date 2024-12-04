@@ -142,15 +142,16 @@ struct Player {
     int32_t HealingPerSecond;
 
     friend std::ostream& operator<<(std::ostream& os, const Player& player) {
-        os << player.Name << "\n{\n" <<
-           "   Role: " << RoleToString(player.Role) << "\n" <<
-           "   Class: " << ClassToString(player.Class) << "\n" <<
-           "   Deaths: " << player.Deaths << "\n" <<
-           "   Total Damage: " << player.TotalDamage << "\n" <<
-           "   DPS: " << player.DamagePerSecond << "\n" <<
-           "   Total Healing: " << player.TotalHealing << "\n" <<
-           "   HPS: " << player.HealingPerSecond << "\n" <<
-           "}";
+        os << "    " << player.Name <<
+        "\n    {\n" <<
+        "       Role: " << RoleToString(player.Role) << "\n" <<
+        "       Class: " << ClassToString(player.Class) << "\n" <<
+        "       Deaths: " << player.Deaths << "\n" <<
+        "       Total Damage: " << player.TotalDamage << "\n" <<
+        "       DPS: " << player.DamagePerSecond << "\n" <<
+        "       Total Healing: " << player.TotalHealing << "\n" <<
+        "       HPS: " << player.HealingPerSecond << "\n" <<
+        "    }";
         return os;
     }
 };

@@ -114,8 +114,10 @@ void CsvReader::ReadCsv(const std::string &filename)
             newPlayer.TotalHealing = GetIntFromString(row[indexStart + PLAYER_HEALING_TOTAL_OFFSET]);
             newPlayer.HealingPerSecond = GetIntFromString(row[indexStart + PLAYER_HPS_OFFSET]);
 
-            std::cout << newPlayer << "\n\n";
+            newKey.Players[i] = newPlayer;
         }
+
+        std::cout << newKey << "\n\n";
     }
 
     std::cout << '\n' << "Finished Reading CSV" << '\n';

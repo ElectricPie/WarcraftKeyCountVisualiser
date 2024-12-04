@@ -1,5 +1,6 @@
 #ifndef WARCRAFTKEYCOUNTVISUALISER_KEY_H
 #define WARCRAFTKEYCOUNTVISUALISER_KEY_H
+#define DUNGEON_PLAYER_COUNT 5
 
 #include <string>
 #include <unordered_map>
@@ -76,7 +77,7 @@ CompletionState StringToCompletionState(const std::string& completionString) {
 struct Key
 {
     std::string RecordingPlayerName;
-    Player Players[5];
+    Player Players[DUNGEON_PLAYER_COUNT];
     std::string DungeonName = "Invalid";
     int32_t Level = 0;
     CompletionState Completed = CompletionState_Invalid;
@@ -94,7 +95,12 @@ struct Key
         "   Time: " << key.CompletionTime << "/" << key.TimeLimit << "\n" <<
         "   Deaths: " << key.Deaths << "\n" <<
         "   Season: " << SeasonToString(key.Season) << "\n" <<
-        "}";
+        "   Players: " << "\n";
+        for (int i = 0; i < DUNGEON_PLAYER_COUNT; i++) {
+            os << key.Players[i] << "\n";
+        }
+        os << "}";
+
         return os;
     }
 };
