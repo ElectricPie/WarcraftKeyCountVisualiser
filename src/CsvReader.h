@@ -8,7 +8,7 @@ public:
     static void ReadCsv(const std::string& filename);
 
 private:
-    static int32_t GetIntFromString(const std::string& stringInput);
+    static int32_t GetIntFromString(const std::string& stringInput, int InvalidReturn = -1);
 };
 
 

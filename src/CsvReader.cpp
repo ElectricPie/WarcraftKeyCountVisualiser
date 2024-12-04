@@ -1,4 +1,5 @@
 #define CSV_DELIMITER ','
+
 #define RECORDING_PLAYER_INDEX 0
 #define DUNGEON_NAME_INDEX 1
 #define DUNGEON_LEVEL_INDEX 2
@@ -7,6 +8,16 @@
 #define COMPLETION_TIME_INDEX 5
 #define DEATHS_INDEX 7
 #define SEASON_INDEX 9
+
+#define PLAYER_START_INDEX 10
+#define PLAYER_ROLE_OFFSET 5
+#define PLAYER_CLASS_OFFSET 10
+#define PLAYER_DEATHS_OFFSET 15
+#define PLAYER_DAMAGE_TOTAL_OFFSET 20
+#define PLAYER_DPS_OFFSET 25
+#define PLAYER_HEALING_TOTAL_OFFSET 30
+#define PLAYER_HPS_OFFSET 35
+
 
 #include <iostream>
 #include <vector>
@@ -88,7 +99,23 @@ void CsvReader::ReadCsv(const std::string &filename)
         newKey.Deaths = GetIntFromString(row[DEATHS_INDEX]);
         newKey.Season = StringToSeason(row[SEASON_INDEX]);
 
-        std::cout << newKey << "\n\n";
+        // TODO: Get Player Data
+        for (int i = 0; i < 5; i++)
+        {
+            int indexStart = PLAYER_START_INDEX + i;
+            Player newPlayer;
+            newPlayer.Name = row[indexStart];
+//            newPlayer.Role
+//            newPlayer.Class
+            newPlayer.Deaths = GetIntFromString(row[indexStart + PLAYER_DEATHS_OFFSET], 0);
+            // May need to convert total damage, dps, total healing and hps to float instead of int
+            newPlayer.TotalDamage = GetIntFromString(row[indexStart + PLAYER_DAMAGE_TOTAL_OFFSET]);
+            newPlayer.DamagePerSecond = GetIntFromString(row[indexStart + PLAYER_DPS_OFFSET]);
+            newPlayer.TotalHealing = GetIntFromString(row[indexStart + PLAYER_HEALING_TOTAL_OFFSET]);
+            newPlayer.HealingPerSecond = GetIntFromString(row[indexStart + PLAYER_HPS_OFFSET]);
+
+            std::cout << newPlayer << "\n\n";
+        }
     }
 
     std::cout << '\n' << "Finished Reading CSV" << '\n';
@@ -98,18 +125,15 @@ void CsvReader::ReadCsv(const std::string &filename)
     // TODO: Return Data
 }
 
-int32_t CsvReader::GetIntFromString(const std::string &stringInput)
+int32_t CsvReader::GetIntFromString(const std::string &stringInput, int InvalidReturn)
 {
     try {
         int num = std::stoi(stringInput);
         return num;
     }
-    catch (const std::invalid_argument& e) {
-        std::cerr << "'" << stringInput << ": not a number" << std::endl;
-    }
-    catch (const std::out_of_range& e) {
-        std::cerr << "'" << stringInput << ": Number Too Larger" << std::endl;
+    catch (std::exception& e) {
+
     }
 
-    return -1;
+    return InvalidReturn;
 }
