@@ -108,27 +108,41 @@ void CsvReader::ReadCsv(const std::string &filename)
             newPlayer.Role = StringToRole(row[indexStart + PLAYER_ROLE_OFFSET]);
             newPlayer.Class = StringToClass(row[indexStart + PLAYER_CLASS_OFFSET]);
             newPlayer.Deaths = GetIntFromString(row[indexStart + PLAYER_DEATHS_OFFSET], 0);
-            // May need to convert total damage, dps, total healing and hps to float instead of int
-            newPlayer.TotalDamage = GetIntFromString(row[indexStart + PLAYER_DAMAGE_TOTAL_OFFSET]);
-            newPlayer.DamagePerSecond = GetIntFromString(row[indexStart + PLAYER_DPS_OFFSET]);
-            newPlayer.TotalHealing = GetIntFromString(row[indexStart + PLAYER_HEALING_TOTAL_OFFSET]);
-            newPlayer.HealingPerSecond = GetIntFromString(row[indexStart + PLAYER_HPS_OFFSET]);
+            // The following fields are left black for abandoned keys
+            if (newKey.Completed != CompletionState_Abandoned)
+            {
+                // May need to convert total damage, dps, total healing and hps to float instead of int
+                newPlayer.TotalDamage = GetIntFromString(row[indexStart + PLAYER_DAMAGE_TOTAL_OFFSET]);
+                newPlayer.DamagePerSecond = GetIntFromString(row[indexStart + PLAYER_DPS_OFFSET]);
+                newPlayer.TotalHealing = GetIntFromString(row[indexStart + PLAYER_HEALING_TOTAL_OFFSET]);
+                newPlayer.HealingPerSecond = GetIntFromString(row[indexStart + PLAYER_HPS_OFFSET]);
+            }
 
             newKey.Players[i] = newPlayer;
         }
 
-        std::cout << newKey << "\n\n";
+//        std::cout << newKey << "\n\n";
+        keys.push_back(newKey);
     }
 
-    std::cout << '\n' << "Finished Reading CSV" << '\n';
+    std::cout << "\n" << "Finished Reading CSV" << "\n";
+    std::cout << "Found " << keys.size() << " Keys" << "\n";
 
     file.close();
 
     // TODO: Return Data
+    return keys;
 }
 
 int32_t CsvReader::GetIntFromString(const std::string &stringInput, int InvalidReturn)
 {
+    size_t stringLength = stringInput.length();
+    std::cout << "Length: " << stringLength << std::endl;
+
+    if (stringInput.length() <= 0){
+        return InvalidReturn;
+    }
+
     try {
         int num = std::stoi(stringInput);
         return num;
