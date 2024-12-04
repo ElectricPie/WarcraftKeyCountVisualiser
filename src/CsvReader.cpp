@@ -1,4 +1,12 @@
 #define CSV_DELIMITER ','
+#define RECORDING_PLAYER_INDEX 0
+#define DUNGEON_NAME_INDEX 1
+#define DUNGEON_LEVEL_INDEX 2
+#define COMPLETION_STATE_INDEX 3
+#define TIME_LIMIT_INDEX 4
+#define COMPLETION_TIME_INDEX 5
+#define DEATHS_INDEX 7
+#define SEASON_INDEX 9
 
 #include <iostream>
 #include <vector>
@@ -71,14 +79,14 @@ void CsvReader::ReadCsv(const std::string &filename)
         }
 
         Key newKey;
-        newKey.RecordingPlayerName = row[0];
-        newKey.DungeonName = row[1];
-        newKey.Level = GetIntFromString(row[2]);
-        newKey.Completed = StringToCompletionState(row[3]);
-        newKey.TimeLimit = GetIntFromString(row[4]);
-        newKey.CompletionTime = GetIntFromString(row[5]);
-        newKey.Deaths = GetIntFromString(row[7]);
-        newKey.Season = StringToSeason(row[9]);
+        newKey.RecordingPlayerName = row[RECORDING_PLAYER_INDEX];
+        newKey.DungeonName = row[DUNGEON_NAME_INDEX];
+        newKey.Level = GetIntFromString(row[DUNGEON_LEVEL_INDEX]);
+        newKey.Completed = StringToCompletionState(row[COMPLETION_STATE_INDEX]);
+        newKey.TimeLimit = GetIntFromString(row[TIME_LIMIT_INDEX]);
+        newKey.CompletionTime = GetIntFromString(row[COMPLETION_TIME_INDEX]);
+        newKey.Deaths = GetIntFromString(row[DEATHS_INDEX]);
+        newKey.Season = StringToSeason(row[SEASON_INDEX]);
 
         std::cout << newKey << "\n\n";
     }
