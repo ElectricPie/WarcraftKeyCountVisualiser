@@ -106,7 +106,7 @@ void CsvReader::ReadCsv(const std::string &filename)
             Player newPlayer;
             newPlayer.Name = row[indexStart];
             newPlayer.Role = StringToRole(row[indexStart + PLAYER_ROLE_OFFSET]);
-//            newPlayer.Class
+            newPlayer.Class = StringToClass(row[indexStart + PLAYER_CLASS_OFFSET]);
             newPlayer.Deaths = GetIntFromString(row[indexStart + PLAYER_DEATHS_OFFSET], 0);
             // May need to convert total damage, dps, total healing and hps to float instead of int
             newPlayer.TotalDamage = GetIntFromString(row[indexStart + PLAYER_DAMAGE_TOTAL_OFFSET]);
