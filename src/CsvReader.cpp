@@ -18,26 +18,22 @@
 #define PLAYER_HEALING_TOTAL_OFFSET 30
 #define PLAYER_HPS_OFFSET 35
 
-
 #include <iostream>
-#include <vector>
 #include <fstream>
 #include <sstream>
 #include "CsvReader.h"
 #include "KeyData/Key.h"
 
-void CsvReader::ReadCsv(const std::string &filename)
+std::vector<Key> CsvReader::ReadCsv(const std::string &filename)
 {
     std::cout << "Reading " << filename << '\n';
 
-    // TODO: Remove data as it will be stored in the structs
-    std::vector<std::pair<std::string, std::vector<std::string>>> data;
+    std::vector<Key> keys;
     std::ifstream file(filename);
 
     if (!file.is_open())
     {
         throw std::runtime_error("Could not open file");
-        // TODO: Return data
     }
 
     std::string line;
@@ -45,13 +41,7 @@ void CsvReader::ReadCsv(const std::string &filename)
     // Read the Headers
     if (std::getline(file, line))
     {
-        std::stringstream ss(line);
-        std::string field;
-
-        while (std::getline(ss, field, CSV_DELIMITER))
-        {
-            data.push_back({field, std::vector<std::string>{}});
-        }
+        // Don't need the headers so can ignore here
     }
 
     // Read the Data
@@ -84,7 +74,6 @@ void CsvReader::ReadCsv(const std::string &filename)
                 field = field.substr(1, field.size() - 2);
             }
 
-            data.at(colIndex).second.push_back(field);
             row.push_back(field);
             colIndex++;
         }
@@ -121,7 +110,6 @@ void CsvReader::ReadCsv(const std::string &filename)
             newKey.Players[i] = newPlayer;
         }
 
-//        std::cout << newKey << "\n\n";
         keys.push_back(newKey);
     }
 
@@ -136,9 +124,6 @@ void CsvReader::ReadCsv(const std::string &filename)
 
 int32_t CsvReader::GetIntFromString(const std::string &stringInput, int InvalidReturn)
 {
-    size_t stringLength = stringInput.length();
-    std::cout << "Length: " << stringLength << std::endl;
-
     if (stringInput.length() <= 0){
         return InvalidReturn;
     }
