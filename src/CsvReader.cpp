@@ -99,13 +99,13 @@ void CsvReader::ReadCsv(const std::string &filename)
         newKey.Deaths = GetIntFromString(row[DEATHS_INDEX]);
         newKey.Season = StringToSeason(row[SEASON_INDEX]);
 
-        // TODO: Get Player Data
+        // Get Player Data
         for (int i = 0; i < 5; i++)
         {
             int indexStart = PLAYER_START_INDEX + i;
             Player newPlayer;
             newPlayer.Name = row[indexStart];
-//            newPlayer.Role
+            newPlayer.Role = StringToRole(row[indexStart + PLAYER_ROLE_OFFSET]);
 //            newPlayer.Class
             newPlayer.Deaths = GetIntFromString(row[indexStart + PLAYER_DEATHS_OFFSET], 0);
             // May need to convert total damage, dps, total healing and hps to float instead of int

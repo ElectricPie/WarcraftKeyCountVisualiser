@@ -10,6 +10,38 @@ enum PlayerRole {
     PlayerRole_Damage,
 };
 
+std::string RoleToString(const PlayerRole role) {
+    std::string roleString = "MISSING ROLE";
+    switch (role)
+    {
+        case PlayerRole_Invalid:
+            roleString = "Invalid";
+            break;
+        case PlayerRole_Tank:
+            roleString = "Tank";
+            break;
+        case PlayerRole_Healer:
+            roleString = "Healer";
+            break;
+        case PlayerRole_Damage:
+            roleString = "Damage";
+            break;
+    }
+
+    return roleString;
+}
+
+PlayerRole StringToRole(const std::string& roleString) {
+    static const std::unordered_map<std::string, PlayerRole> roleMap = {
+            {"TANK", PlayerRole_Tank},
+            {"HEALER", PlayerRole_Healer},
+            {"DAMAGER", PlayerRole_Damage},
+    };
+
+    auto it = roleMap.find(roleString);
+    return (it != roleMap.end()) ? it->second : PlayerRole_Invalid;
+}
+
 enum PlayerClass {
     PlayerClass_Invalid,
     PlayerClass_DeathKnight,
@@ -39,7 +71,7 @@ struct Player {
 
     friend std::ostream& operator<<(std::ostream& os, const Player& player) {
         os << player.Name << "\n{\n" <<
-           "   Role: " << "NONE" << "\n" <<
+           "   Role: " << RoleToString(player.Role) << "\n" <<
            "   Class: " << "NONE" << "\n" <<
            "   Deaths: " << player.Deaths << "\n" <<
            "   Total Damage: " << player.TotalDamage << "\n" <<
